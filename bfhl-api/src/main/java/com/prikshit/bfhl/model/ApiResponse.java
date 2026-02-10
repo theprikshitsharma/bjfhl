@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "is_success", "official_email", "data" })
 public class ApiResponse {
 
-    public boolean is_success;
+    public boolean is_success;  
     public String official_email;
     public Object data;
 
