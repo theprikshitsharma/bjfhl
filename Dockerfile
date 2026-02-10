@@ -1,14 +1,9 @@
-# Use official OpenJDK image
-FROM eclipse-temurin:21-jdk-jammy
-
-# Set working directory
+FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
-
-# Copy project files
 COPY . .
+RUN mvn clean package -DskipTests
 
-# Build the project
-RUN ./mvnw clean package -DskipTests || mvn clean package -DskipTests
-
-# Run the jar
-CMD ["sh", "-c", "java -jar target/*.jar --server.port=$PORT"]
+FROM eclipse-temurin:21-jdk-jammy
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+CMD ["sh", "-c", "java -jar app.jar --server.port=$PORT"]
